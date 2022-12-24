@@ -7,12 +7,24 @@ import pandas as pd
 import matplotlib.pyplot as pt
 import plotly.graph_objects as go
 import os
-for dirname, _, filenames in os.walk('CSVFiles'):
+for dirname, _, filenames in os.walk('DataFiles'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv')
-df.info()
-df.describe()
-df.nunique()
+df = pd.read_csv('DataFiles/Covid19_Bangladesh.csv')
 
+x = df[df["Confirmed case"] != 0]["Date"]
+y = df[df["Confirmed case"] != 0]["Confirmed case"]
+
+fig = go.Figure()
+
+fig.add_trace(go.Bar(x=x,
+                     y=y,
+                     text=y,
+                     textposition="auto"))
+
+fig.update_layout(title=dict(text="Daily confirmed cases",
+                             font_size=25
+                             ),
+                  yaxis=dict(title="Number of cases"),
+                  xaxis=dict(title="Date"))
